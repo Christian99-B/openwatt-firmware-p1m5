@@ -71,6 +71,12 @@ P1Data latestData;
 // ============================================================================
 
 String getDeviceId() {
+
+#if defined(SOLISECO_STAGING_TEST) && SOLISECO_STAGING_TEST
+  // Identifiant réservé aux tests Soliseco STAGING
+  return String("P1TEST001");
+#else
+  // Identifiant normal généré depuis l'adresse MAC
   uint8_t mac[6];
   esp_efuse_mac_get_default(mac);
 
@@ -78,6 +84,7 @@ String getDeviceId() {
   sprintf(deviceId, "P1%02X%02X%02X", mac[3], mac[4], mac[5]);
 
   return String(deviceId);
+#endif
 }
 
 String getDeviceName() {
